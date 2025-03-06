@@ -20,6 +20,8 @@ public class Visualizer_Bar : MonoBehaviour
     public Color componentColor;
 
     public void Initialize(float _min, float _max, float _mult, Color _col, int _count) {
+        transform.localScale = Vector3.one;
+
         minHeight = _min;
         maxHeight = _max;
         heightMultiplier = _mult;
@@ -35,7 +37,7 @@ public class Visualizer_Bar : MonoBehaviour
             GameObject newObject = Instantiate(barPrefab, Vector3.zero, Quaternion.identity);
 
             newObject.transform.SetParent(transform);
-            newObject.transform.localPosition = new Vector3(-screenWidth / 2 + screenWidth / componentCount * i, 0, 0);
+            newObject.transform.localPosition = new Vector3(1920 / componentCount * i, 0, 0);
             newObject.GetComponent<Image>().color = componentColor;
 
             // Add object to components list

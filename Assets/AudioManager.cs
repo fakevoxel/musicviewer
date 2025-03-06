@@ -9,7 +9,7 @@ using TMPro;
 // TEST: C:\Users\maxim\Desktop\Music Files/Context Sensitive - Weekly Loops Season 3 (Special Edition) - 68 104 - Advance (lopable).wav
  
 public class AudioManager : MonoBehaviour {
-    public string trackDirectory = "file:///c:/Folder/funny.wav";
+    private string trackDirectory = "file:///c:/Folder/funny.wav";
     public AudioClip audioTrack;
 
     void Awake() {
