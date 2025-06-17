@@ -3,9 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEditor;
 
 public class UIManager : MonoBehaviour
 {
+    private static UIManager _instance;
+
+    public static UIManager Instance {
+        get => _instance;
+        private set {
+            if (_instance == null) {
+                _instance = value;
+            }
+            else if (_instance != value) {
+                Debug.Log("You messed up buddy.");
+                Destroy(value);
+            }
+        }
+    }
+
+    private void Awake()
+    {
+        Instance = this;
+        
+        Utils.uiManager = this;
+        Utils.backgroundColorPicker = backgroundChooser;
+        Utils.canvasTransform = gameObject.transform;
+
+        Application.targetFrameRate = 60;
+    }
+
+    public Transform canvasTransform; 
+
     public GameObject background;
     public UI_ColorPicker backgroundChooser;
 
@@ -24,14 +53,6 @@ public class UIManager : MonoBehaviour
 
     public Color visualizerColor;
 
-    void Awake() {
-        Utils.uiManager = this;
-        Utils.backgroundColorPicker = backgroundChooser;
-        Utils.canvasTransform = gameObject.transform;
-
-        Application.targetFrameRate = 60;
-    }
-
     void Start() {
         SetBackgroundType("Green Screen");
         AddVisualizer("bar");
@@ -41,6 +62,14 @@ public class UIManager : MonoBehaviour
 
     void Update() {
         SetBackgroundColor(Utils.backgroundColorPicker.GetColor());
+    }
+
+    public string GetSaveFilePath() {
+        return EditorUtility.SaveFilePanel(
+            "Save texture as PNG",
+            "",
+            "test.png",
+            "png");
     }
 
     public void ClearVisualizers() {
@@ -92,11 +121,11 @@ public class UIManager : MonoBehaviour
 
         if (_input.value == 0) {
             Color.RGBToHSV(greenScreen, out h, out s, out v);
-            backgroundChooser.h = h;
+            backgroundChooser.SetHue(h);
         }
         else if (_input.value == 1) {
             Color.RGBToHSV(blueScreen, out h, out s, out v);
-            backgroundChooser.h = h;
+            backgroundChooser.SetHue(h);
         }
 
         SetBackgroundColor(backgroundChooser.GetColor());
@@ -109,11 +138,11 @@ public class UIManager : MonoBehaviour
 
         if (_input.Equals("Green Screen")) {
             Color.RGBToHSV(greenScreen, out h, out s, out v);
-            backgroundChooser.h = h;
+            backgroundChooser.SetHue(h);
         }
         else if (_input.Equals("Blue Screen")) {
             Color.RGBToHSV(blueScreen, out h, out s, out v);
-            backgroundChooser.h = h;
+            backgroundChooser.SetHue(h);
         }
 
         SetBackgroundColor(backgroundChooser.GetColor());
