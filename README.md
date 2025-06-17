@@ -1,4 +1,4 @@
-![logo](logo_wide.png)
+![logo](Assets/logo_wide.png)
 
 ### MusicViewer
 
